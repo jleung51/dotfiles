@@ -1,6 +1,6 @@
 # Jeff's Dotfiles
 
-To install, first install [GNU Stow](https://www.gnu.org/software/stow).
+To use, first install [GNU Stow](https://www.gnu.org/software/stow).
 
 The recommended location for this repository is `~/.local/src/` (see [XDG Specs](https://specifications.freedesktop.org/basedir-spec/latest)).
 
