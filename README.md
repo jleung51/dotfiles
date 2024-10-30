@@ -6,6 +6,6 @@ Clone the repository and install the files:
 ```bash
 git clone https://github.com/jleung51/dotfiles.git
 cd dotfiles/dotfiles/
-stow *
+stow * -t ~
 ```
 
