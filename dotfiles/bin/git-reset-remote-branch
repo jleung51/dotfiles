@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+CURR_BRANCH=$(git branch --show-current)
+echo "Current branch: $CURR_BRANCH"
+echo
+
+echo "Removing current branch..."
+git push origin :$CURR_BRANCH
+echo
+
+echo "Pushing replacement remote branch..."
+git push origin $CURR_BRANCH
+echo
+
+echo "Done."
+
