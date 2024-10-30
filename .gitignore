@@ -1,0 +1,5 @@
+ssh/.ssh/authorized_keys
+ssh/.ssh/id_*
+ssh/.ssh/*.pub
+ssh/.ssh/known_hosts
+

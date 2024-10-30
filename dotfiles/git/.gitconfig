@@ -1,0 +1,9 @@
+[user]
+	name = Jeffrey Leung
+	email = jleung513@gmail.com
+[core]
+	editor = vim
+[init]
+	defaultBranch = main
+[pager]
+	branch = false
