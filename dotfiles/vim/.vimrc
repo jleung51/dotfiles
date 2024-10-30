@@ -1,5 +1,3 @@
-source $LOCAL_ADMIN_SCRIPTS/master.vimrc
-
 syntax on
 filetype on
 
