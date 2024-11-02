@@ -118,7 +118,7 @@ compinit
 alias countryroads="cd ~"
 alias vf="vim ./\$(fzf)"
 
-. $HOME/.local/src/z
+. $HOME/.local/bin/z
 
 # Re-enable case-insensitive autocompletion
 # Execute: $ autoload -Uz compinit && compinit
