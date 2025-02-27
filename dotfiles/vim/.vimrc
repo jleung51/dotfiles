@@ -19,6 +19,7 @@ set showmode
 " Search
 set hlsearch
 hi Search ctermbg=Yellow ctermfg=Black
+set ignorecase
 set smartcase
 
 " Misc
