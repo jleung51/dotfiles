@@ -88,7 +88,7 @@ setopt extendedglob notify
 bindkey -e
 
 # Lines configured by compinstall
-zstyle :compinstall filename '/home/jleung/.zshrc'
+zstyle :compinstall filename '$HOME/.zshrc'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 autoload -Uz compinit
 compinit
@@ -111,5 +111,5 @@ export EDITOR=vim
 # Scripts
 . $HOME/.local/bin/z
 
-
 export PATH=$HOME/.local/bin:$PATH
+
