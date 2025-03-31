@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+#
+# Requirements:
+#   blueutil
+#
+# Linter:
+#   python3 -m autopep8 --in-place --aggressive
+#
+
+import enum
+import subprocess
+import sys
+import time
+
+
+class Command(enum.Enum):
+    CONNECT = 1
+    DISCONNECT = 2
+
+
+COMMAND_LOOKUP = {
+    Command.CONNECT: ["connect", "con", "ct", "c"],
+    Command.DISCONNECT: ["disconnect", "dis", "dc", "d"]
+}
+
+command = None
+
+device = "--"
+
+
+def validate_command(user_input):
+    for cmd, possible_inputs in COMMAND_LOOKUP.items():
+        if user_input.lower() in possible_inputs:
+            return cmd
+
+    s = "\n".join([" " + key.name + ": " + ", ".join(value)
+                  for key, value in COMMAND_LOOKUP.items()])
+    sys.exit("Invalid command: " + user_input +
+             ".\n\nPossible commands are: \n" + s + "\n")
+
+
+def get_args():
+    if len(sys.argv) < 2:
+        sys.exit("No command provided.")
+    global command
+    command = validate_command(sys.argv[1])
+
+    if len(sys.argv) < 3:
+        sys.exit("No device name provided.")
+    global device
+    device = sys.argv[2]
+
+
+def get_bluetooth_id(device_name):
+    output = subprocess.check_output(["blueutil", "--paired"])
+    if output is None:
+        sys.exit("No paired devices found.")
+    if len(sys.argv) < 3:
+        sys.exit("No device name provided.")
+
+    global device
+    device = sys.argv[2]
+
+
+def get_bluetooth_id(device_name):
+    output = subprocess.check_output(["blueutil", "--paired"])
+    if output is None:
+        sys.exit("No paired devices found.")
+
+    device_count = 0
+    for line in output.decode().split("\n"):
+        if device_name.lower() in line.lower():
+            bt_id = line.split(" ")[1]
+            bt_id = bt_id.replace(",", "")
+            print("Bluetooth ID found: " + bt_id)
+            device_count += 1
+
+    if device_count == 0:
+        sys.exit("Bluetooth device not found in paired devices.")
+
+    elif device_count > 1:
+        sys.exit("\nMultiple Bluetooth devices found. Exiting.")
+
+    return bt_id
+
+
+get_args()
+bt_id = get_bluetooth_id(device)
+time.sleep(0.5)
+
+if command == command.CONNECT:
+    print("Connecting...")
+    subprocess.check_output(["blueutil", "--connect", bt_id])
+
+elif command == Command.DISCONNECT:
+    print("Disconnecting...")
+    subprocess.check_output(["blueutil", "--disconnect", bt_id])
+
+else:
+    sys.exit("Command not implemented. Exiting.")
