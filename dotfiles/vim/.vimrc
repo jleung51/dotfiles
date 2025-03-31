@@ -3,6 +3,8 @@ filetype on
 
 "  Indentation
 filetype indent on
+set tabstop=2
+set shiftwidth=2
 set expandtab
 set autoindent
 set list
