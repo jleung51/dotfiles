@@ -12,7 +12,7 @@ set listchars=tab:▸-
 
 " Visual indicators
 set number
-highlight LineNr ctermfg=LightGrey
+highlight LineNr ctermfg=DarkGray
 set cursorline
 hi clear cursorline
 hi CursorLineNR ctermfg=White
