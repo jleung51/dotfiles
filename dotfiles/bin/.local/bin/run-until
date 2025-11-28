@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+
+import argparse
+import requests
+import subprocess
+import sys
+import time
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+
+    # Argument definitions
+    parser.add_argument('command')
+    parser.add_argument('search_term')
+    parser.add_argument('-r', '--reverse', action='store_true', help='Run until the term is NOT found.')
+    parser.add_argument('-w', '--wait-seconds', default=5, type=int, help='Number of seconds to wait between invocations.')
+    parser.add_argument('-c', '--case-sensitive', action='store_true', help='Search in the output case-sensitive.')
+    parser.add_argument('-s', '--slack-webhook', help='Slack Notifier webook URL.')
+
+    args = parser.parse_args()
+
+    # Validations
+    if args.wait_seconds < 0:
+        sys.exit('Seconds to wait must be a non-negative number.')
+
+    return args
+
+
+def notify_slack(webhook_url):
+    '''Posts a completion message to a Slack workflow webhook of your choice.
+
+    For more information, see:
+    https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks
+    '''
+    response = requests.post(
+        webhook_url,
+        json={'message': '*Completed*: run-until execution.'}
+    )
+ 
+def main():
+    args = parse_args()
+    wait_time = args.wait_seconds
+
+    count = 1
+
+    def attempt():
+        output = ''
+        try:
+            with subprocess.Popen(
+                    args.command,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    bufsize=1,
+                    universal_newlines=True,
+                    shell=True) as p:
+                for line in p.stdout:
+                    print(line, end='')
+                    output += line
+                    output += '\n'
+        except subprocess.CalledProcessError as e:
+            print(f'Error from command: {e.output}')
+            return
+
+        search_term = args.search_term
+        if not args.case_sensitive:
+            search_term = search_term.lower()
+            output = output.lower()
+
+        if args.reverse:
+            return search_term not in output
+        return search_term in output
+
+    complete = False
+    while not complete:
+        complete = attempt()
+        if not complete:
+            print(f'\n{"_"*80}\n\nNext attmept ({count}) in {wait_time} second{"s" if args.wait_seconds != 1 else ""}...')
+            time.sleep(wait_time)
+            count += 1
+
+    if args.slack_webhook:
+        notify_slack(args.slack_webhook)
+        print('\nCompleted. Slack notification sent.')
+    else:
+        print('\nCompleted.')
+
+
+if __name__ == '__main__':
+    main()
+
