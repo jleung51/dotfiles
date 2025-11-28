@@ -1,9 +1,73 @@
+################################################################################
+###
+###     ██████╗ ██╗████████╗ ██████╗ ██████╗ ███╗   ██╗███████╗██╗ ██████╗
+###    ██╔════╝ ██║╚══██╔══╝██╔════╝██╔═══██╗████╗  ██║██╔════╝██║██╔════╝
+###    ██║  ███╗██║   ██║   ██║     ██║   ██║██╔██╗ ██║█████╗  ██║██║  ███╗
+###    ██║   ██║██║   ██║   ██║     ██║   ██║██║╚██╗██║██╔══╝  ██║██║   ██║
+###    ╚██████╔╝██║   ██║   ╚██████╗╚██████╔╝██║ ╚████║██║     ██║╚██████╔╝
+###     ╚════╝ ╚═╝   ╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝     ╚═╝ ╚═════╝
+###
+#################################################################################
+
+# Official documentation:
+# https://git-scm.com/docs/git-config
+
 [user]
-	name = Jeffrey Leung
-	email = jleung513@gmail.com
+  name = Jeffrey Leung
+  email = jleung513@gmail.com
+
+[help]
+  autocorrect = 0
+
 [core]
-	editor = vim
+  editor = vim
+  whitespace = trailing-space
+  pager = less -FSRX
+
+[alias]
+  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  graph = log --all --graph --decorate --oneline
+  current = rev-parse --abbrev-ref HEAD
+  pushthis = !git push origin $(git current)
+  refreshremote = !CURR=$(git current) && git push origin :$CURR && git push origin $CURR
+
 [init]
-	defaultBranch = main
+  defaultBranch = main
+
+[color]
+  ui = auto
+
+[status]
+  branch = true
+  showStash = true
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = -version:refname
+
+[pull]
+  rebase = true
+
+[push]
+  default = simple
+  autoSetupRemote = true
+
+[commit]
+  verbose = true
+
+[rebase]
+  autosquash = true
+
+[rerere]
+  enabled = true
+  autoUpdate = true
+
 [pager]
-	branch = false
+  branch = false
+
+[maintenance]
+  auto = true
+  strategy = incremental
+
