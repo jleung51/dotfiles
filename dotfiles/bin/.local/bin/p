@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+#
+# Pastebin API documentation:
+# https://pastebin.com/doc_api
+#
+# Setup:
+# pip3 install requests
+
+import argparse
+import requests
+import subprocess
+import sys
+
+text_red = '\033[0;31m'
+text_no_color = '\033[0m'
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('url', nargs='?', help='URL of the paste.')
+
+    args = parser.parse_args()
+    if args.url:
+        if 'pastebin.com/' not in args.url:
+            sys.exit(f'{text_red}Error: Is this a valid Pastebin URL?{text_no_color}')
+
+    return args
+
+
+def get_paste_key(url):
+    return url.replace('https://', '').replace('pastebin.com/', '')
+
+
+def create_paste(text):
+    #TODO
+    sys.exit('Not yet implemented.')
+
+
+def get_paste(url):
+    paste_key = get_paste_key(url)
+    print(f'Paste key: {paste_key}')
+
+    #TODO
+    sys.exit('Not yet implemented.')
+
+
+def main():
+    if not sys.stdin.isatty():
+        pipe_input = ""
+        for line in sys.stdin:
+            pipe_input += line
+        url = create_paste(pipe_input)
+        print(url)
+
+    else:
+        # Get paste
+        args = parse_args()
+        if not args.url:
+            sys.exit(f'{text_red}Error: URL is required.')
+        get_paste(args.url)
+
+if __name__ == '__main__':
+  main()
+
