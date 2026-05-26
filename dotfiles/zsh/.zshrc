@@ -69,6 +69,50 @@ source $ZSH/oh-my-zsh.sh
 
 
 ############################################################
+# Vim
+###########################################################
+
+alias vf="vim ./\$(fzf)"
+alias vgf="vim ./\$(git diff --name-only HEAD | fzf)"
+
+
+############################################################
+# fzf
+###########################################################
+
+# For preview pane
+# See: https://github.com/sharkdp/bat
+export BAT_THEME='Catppuccin Mocha'
+
+# Include hidden files
+# Exclude gitignored files
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+
+# https://vitormv.github.io/fzf-themes/
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --border="rounded"
+  --preview-window="border-rounded"
+  --prompt="> "
+  --marker=">"
+  --pointer="◆" --separator="─" --scrollbar="│"
+  '
+
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --style full
+  --preview "fzf-preview.sh {}"
+  --border
+  --padding 1,2
+  --border-label " 🌸 "
+  --input-label " Input "
+  --header-label " Filetype "
+  --bind "focus:transform-header:file --brief {}"
+  --bind "focus:transform-preview-label:[[ -n {} ]] && printf \" Previewing %s \" {}"
+  --keep-right
+  --freeze-right=1
+  '
+
+
+############################################################
 # User Configuration
 ############################################################
 
