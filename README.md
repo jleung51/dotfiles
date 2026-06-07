@@ -27,6 +27,9 @@ stow * --target ~ --verbose
 ## Requirements:
 
 Mac:
-- [blueutil](https://github.com/toy/blueutil): `brew install blueutil`
-- [stow](https://www.gnu.org/software/stow/): `brew isntall stow`
+```bash
+brew install bat blueutil fd stow 
+```
 
+- [blueutil](https://github.com/toy/blueutil)
+- [stow](https://www.gnu.org/software/stow/)
